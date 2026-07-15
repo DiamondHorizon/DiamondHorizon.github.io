@@ -1,0 +1,28 @@
+[
+  {
+    "url": "welcome-to-the-catalysts-codex",
+    "title": "Welcome to The Catalyst's Codex",
+    "date": "2026-07-15",
+    "tags": ["Informational"],
+    "snippet": "The answers you seek, compiled in one legendary location.",
+    "content": [
+      "&var{theCatalyst} Welcome to The Catalyst's Codex. I am The Catalyst, and this is my personal blog. Here, I share my thoughts, experiences, and insights on a variety of topics that inspire me.",
+      "Topics will range from technology and innovation to introspection and deep philosophical ponderings. I aim to provide a unique perspective on the world, and I hope that my musings will spark curiosity and encourage you to explore new ideas.",
+      "I have also provided a collection of resources, tools, and references that I find valuable. These are meant to serve as a starting point for your own exploration and learning.",
+      "Perhaps someday we will end up in the same &style{multiverse}<universe>, and I will be able to share my thoughts with you in person. Until then, I hope that this blog serves as a source of inspiration and knowledge for you."
+    ],
+    "variables": {
+        "theCatalyst": {
+            "type": "image",
+            "src": "assets/ai-the-catalyst.png",
+            "class": "main-image"
+        }
+    },
+    "style": {
+        "multiverse": {
+            "type": "class",
+            "class": "glitch"
+        }
+    }
+  }
+]

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About the Catalyst</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+<div id="menu"></div>
+<script>
+fetch("nav.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+  });
+</script>
+<script src="scripts/glitch.js"></script>
+
+<header class="hero">
+    <h1>About the Catalyst</h1>
+    <p>The Man behind the Veil of Mysteries</p>
+    <a class="btn" href="posts.html">Read the Blog</a>
+</header>
+
+<section class="page">
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p class="glitch">
+        So... you're interested in who I am, are you?
+    </p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p>
+        Well, I don't just hand out information. Nothing useful in this world is
+        free and the sooner you realize that, the better off you'll be. So if you 
+        want to know more, you'll have to dig a little deeper. Finding stuff out
+        about me will require some effort on your part. I've learned that most 
+        things in life won't just be handed to you on a silver platter. Once you
+        learn this lesson too, you'll see why I don't ever just hand out information.
+    </p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p>
+        Unless it's in the blog, I guess...
+    </p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p>
+        ...
+    </p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p>
+        But that stuff is important! Realize how lucky you are to have me supplying
+        all of this life-changing information to you for free!
+    </p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p>
+        So you're unsatisfied with the information I've given you and you want to
+        know more about where it comes from? Well, I guess I can give you just one
+        hint.
+    </p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p class="glitch" id="corrupted"></p>
+    <p class="speaker">
+        <img src="assets/ai-the-catalyst.png" class="profile-pic" alt="The Catalyst">
+        The Catalyst:
+    </p>
+    <p>
+        Oops, looks like the page glitched out. Hope you saw the information before
+        it broke.
+    </p>
+</section>
+
+<script>
+    setInterval(() => {
+        document.getElementById("corrupted").innerText = corruptHybrid("I admire your commitment to seeking knowledge, but the truth is not easily found. Keep searching, and you may uncover the secrets of The Catalyst.");
+    }, 120);
+</script>
+</body>
+</html>

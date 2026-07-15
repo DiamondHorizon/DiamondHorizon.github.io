@@ -2,22 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>The Bro Blog</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Catalyst's Codex</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
+<div id="menu"></div>
+<script>
+fetch("nav.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+
+    document.querySelector(".hamburger").addEventListener("click", () => {
+        document.getElementById("menuLinks").classList.toggle("show");
+    });
+  });
+</script>
+
 <header class="hero">
-    <h1>Welcome to The Bro Blog</h1>
-    <p>Where awesomeness is not optional.</p>
+    <h1>Welcome to The Catalyst's Codex</h1>
+    <p>Your guide to a legendary look at life.</p>
     <a class="btn" href="posts.html">Read the Blog</a>
 </header>
 
-<section class="intro">
-    <h2>Suit Up.</h2>
-    <p>This is your legendary corner of the internet.  
-       Stories, wisdom, and dangerously high levels of awesome await.</p>
+<section class="hero terminal-hero">
+    <div class="terminal">
+        <div class="line">> Initializing Astral Terminal<span class="cursor"></span></div>
+        <div class="boot-sequence">
+            <div>> Loading astral archives…</div>
+            <div>> Decrypting insight streams…</div>
+            <div>> Rendering cosmic index…</div>
+            <div>> Locating multidimensional coordinates…</div>
+            <div>> Establishing interdimensional link…</div>
+            <div>> Establishing neural link…</div>
+            <div>> Welcome to The Catalyst's Codex.</div>
+        </div>
+
+        <div class="terminal-links">
+            <a href="posts.html" class="terminal-link">> Access Posts</a>
+            <a onclick="goToLatestPost()" class="terminal-link">> Latest Entry</a>
+            <a href="about.html" class="terminal-link">> About The Catalyst</a>
+        </div>
+    </div>
+    <audio id="bootSound" src="assets/boot.mp3"></audio>
 </section>
 
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    const audio = document.getElementById("bootSound");
+    audio.volume = 0.4; // optional: softer volume
+    audio.play().catch(() => {
+        // Some browsers block autoplay until user interacts
+        document.addEventListener("click", () => audio.play(), { once: true });
+    });
+});
+
+function goToLatestPost() {
+    fetch("posts.json")
+        .then(res => res.json())
+        .then(posts => {
+            // Sort posts by date (newest first)
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Redirect to newest post
+            window.location.href = "post.html?post=" + posts[0].url;
+        });
+}
+</script>
 </body>
 </html>

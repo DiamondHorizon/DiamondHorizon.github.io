@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading... — Catalyst’s Codex</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+
+<!-- Dynamic Navigation -->
+<div id="menu"></div>
+<script>
+fetch("../nav.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+
+    const burger = document.querySelector(".hamburger");
+    if (burger) {
+        burger.addEventListener("click", () => {
+            document.getElementById("menuLinks").classList.toggle("show");
+        });
+    }
+  });
+</script>
+
+<header class="hero">
+    <h1 id="postTitle">Loading...</h1>
+    <h2 id="postSubtitle" class="subtitle"></h2>
+</header>
+
+<div class="post">
+    <div class="post-header-row">
+        <a href="../posts.html" class="back-button">← Back to Posts</a>
+
+        <div class="post-meta">
+            <div class="date" id="postDate"></div>
+            <div class="tags" id="postTags"></div>
+        </div>
+    </div>
+    
+    <div id="postContent"></div>
+</div>
+
+<script>
+// ------------------------------
+// TEMPLATE ENGINE FUNCTIONS
+// ------------------------------
+
+function applyVariables(text, variables) {
+    return text.replace(/&var\{(.*?)\}/g, (match, varName) => {
+        const value = variables[varName];
+        if (!value) return match;
+
+        // If it's a simple string
+        if (typeof value === "string") {
+            return value;
+        }
+
+        // If it's an image variable
+        if (value.type === "image") {
+            const cls = value.class ? `class="${value.class}"` : "";
+            return `<img src="${value.src}" ${cls}>`;
+        }
+
+        // If it's custom HTML
+        if (value.type === "html") {
+            return value.html;
+        }
+
+        return match;
+    });
+}
+
+function applyStyles(text, styles) {
+    return text.replace(/&style\{(.*?)\}<([^>]+)>/g, (match, styleName, innerText) => {
+        const style = styles[styleName];
+        if (!style) return innerText;
+
+        // Apply class
+        if (style.type === "class") {
+            return `<span class="${style.class}">${innerText}</span>`;
+        }
+
+        // Apply inline CSS (old behavior)
+        if (Array.isArray(style)) {
+            const css = style.join(" ");
+            return `<span style="${css}">${innerText}</span>`;
+        }
+
+        return innerText;
+    });
+}
+
+function processParagraph(text, post) {
+    let output = text;
+
+    if (post.variables) {
+        output = applyVariables(output, post.variables);
+    }
+
+    if (post.style) {
+        output = applyStyles(output, post.style);
+    }
+
+    return output;
+}
+
+// ------------------------------
+// LOAD POST DATA
+// ------------------------------
+
+const params = new URLSearchParams(window.location.search);
+const postId = params.get("post");
+
+fetch("../posts.json")
+  .then(res => res.json())
+  .then(posts => {
+    const post = posts.find(p => p.url === postId);
+
+    if (!post) {
+        document.getElementById("postTitle").innerText = "Post Not Found";
+        return;
+    }
+
+    // Title + subtitle
+    document.title = `${post.title} — Catalyst’s Codex`;
+    document.getElementById("postTitle").innerText = post.title;
+    document.getElementById("postSubtitle").innerText = post.snippet;
+
+    // Date
+    document.getElementById("postDate").innerText = post.date;
+
+    // Tags
+    const tagContainer = document.getElementById("postTags");
+    post.tags.forEach(tag => {
+        tagContainer.innerHTML += `<span class="tag">${tag}</span>`;
+    });
+
+    // Content
+    const contentContainer = document.getElementById("postContent");
+
+    post.content.forEach(paragraph => {
+        const processed = processParagraph(paragraph, post);
+        contentContainer.innerHTML += `<p>${processed}</p>`;
+    });
+});
+</script>
+
+</body>
+</html>
