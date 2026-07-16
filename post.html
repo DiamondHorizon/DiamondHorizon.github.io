@@ -92,6 +92,50 @@ function applyStyles(text, styles) {
     });
 }
 
+function applyEmbed(text) {
+    return text.replace(/&embed\{(.*?)\}/g, (match, embedData) => {
+
+        // Case 1: YouTube video
+        if (embedData.startsWith("youtube:")) {
+            const url = embedData.replace("youtube:", "").trim();
+            const id = url.split("v=")[1];
+            return `
+                <div class="video-embed">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${id}"
+                        frameborder="0"
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    ></iframe>
+                </div>
+            `;
+        }
+
+        // Case 2: YouTube playlist
+        if (embedData.startsWith("playlist:")) {
+            const url = embedData.replace("playlist:", "").trim();
+            const listId = url.split("list=")[1];
+            return `
+                <div class="video-embed">
+                    <iframe 
+                        src="https://www.youtube.com/embed/videoseries?list=${listId}"
+                        frameborder="0"
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    ></iframe>
+                </div>
+            `;
+        }
+
+        // Case 3: Raw HTML embed
+        if (embedData.startsWith("<")) {
+            return embedData;
+        }
+
+        return match;
+    });
+}
+
 function processParagraph(text, post) {
     let output = text;
 
@@ -102,6 +146,8 @@ function processParagraph(text, post) {
     if (post.style) {
         output = applyStyles(output, post.style);
     }
+
+    output = applyEmbed(output);
 
     return output;
 }
